@@ -24,7 +24,7 @@ class UniformManagerApp:
         )
 
         self.root.geometry(
-            "900x600"
+            "1920x1080"
         )
 
         self.root.resizable(
@@ -69,41 +69,41 @@ class UniformManagerApp:
         tk.Button(
             button_frame,
             text="Open Inventory",
-            width=25,
-            height=2,
+            width=50,
+            height=4,
             command=self.open_inventory
         ).grid(
             row=0,
             column=0,
-            padx=10,
-            pady=10
+            padx=20,
+            pady=20
         )
 
 
         tk.Button(
             button_frame,
             text="Exit",
-            width=25,
-            height=2,
+            width=50,
+            height=4,
             command=self.root.destroy
         ).grid(
-            row=1,
+            row=2,
             column=0,
-            padx=10,
-            pady=10
+            padx=20,
+            pady=20
         )
 
         tk.Button(
             button_frame,
             text="Hat Inventory",
-            width=25,
-            height=2,
+            width=50,
+            height=4,
             command=lambda: HatWindow(self.root)
         ).grid(
-            row=2,
+            row=3,
             column=0,
-            padx=10,
-            pady=10
+            padx=20,
+            pady=20
 )
         # -------------------------
         # Status
