@@ -6,12 +6,12 @@ class LoginWindow:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Marching Band Uniform Manager")
-        self.root.geometry("400x300")
+        self.root.geometry("1920x1080")
         self.root.resizable(False, False)
 
         # Change these to whatever you want
         self.USERNAME = "Jody"
-        self.PASSWORD = "MrOrangeGrass09"
+        self.PASSWORD = "PASSWORD"
 
         self.logged_in = False
 
