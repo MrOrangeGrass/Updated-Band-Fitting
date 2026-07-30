@@ -1,7 +1,6 @@
 """
 inventory.py
 Marching Band Uniform Manager
-Part 1 - Inventory Window Layout
 """
 
 
@@ -30,7 +29,7 @@ class InventoryWindow:
         self.window = tk.Toplevel(parent)
 
         self.window.title("Uniform Inventory")
-        self.window.geometry("1100x650")
+        self.window.geometry("1820x980")
         self.window.minsize(900, 500)
 
         self.build_ui()
@@ -42,7 +41,6 @@ class InventoryWindow:
     # ==========================
     # Update Statistics
     # ==========================
-
 
 
     def build_ui(self):
