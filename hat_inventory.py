@@ -25,11 +25,11 @@ class HatWindow:
         self.window = tk.Toplevel(parent)
 
         self.window.title(
-            "Hat Inventory"
+            "Shako Inventory"
         )
 
         self.window.geometry(
-            "800x500"
+            "1820x980"
         )
 
         self.build_ui()
@@ -40,7 +40,7 @@ class HatWindow:
         # Title
         tk.Label(
             self.window,
-            text="Hat Inventory",
+            text="Shako Inventory",
             font=("Arial", 20, "bold")
         ).pack(pady=10)
 
