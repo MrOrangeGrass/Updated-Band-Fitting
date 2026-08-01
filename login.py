@@ -6,7 +6,7 @@ class LoginWindow:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Marching Band Uniform Manager")
-        self.root.geometry("1920x1080")
+        self.root.geometry("600x600")
         self.root.resizable(False, False)
 
         # Change these to whatever you want
@@ -103,3 +103,4 @@ if __name__ == "__main__":
         print("Logged In")
     else:
         print("Cancelled")
+
