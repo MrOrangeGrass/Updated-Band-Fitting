@@ -7,16 +7,13 @@ from database import (
     create_database,
     get_hats,
     return_hat,
-    search_hats,
     search_hats_by_size,
     import_hat_csv,
     export_hat_csv
-    
 )
 
 
 class HatWindow:
-
 
     def __init__(self, parent):
 
@@ -29,15 +26,20 @@ class HatWindow:
         )
 
         self.window.geometry(
-            "1820x980"
+            "600x600"
         )
 
         self.build_ui()
 
         self.load_hats()
+
+
     def build_ui(self):
 
+        # -------------------------
         # Title
+        # -------------------------
+
         tk.Label(
             self.window,
             text="Shako Inventory",
@@ -45,8 +47,12 @@ class HatWindow:
         ).pack(pady=10)
 
 
+        # -------------------------
         # Table
+        # -------------------------
+
         table_frame = tk.Frame(self.window)
+
         table_frame.pack(
             fill="both",
             expand=True,
@@ -71,6 +77,7 @@ class HatWindow:
 
 
         for column in columns:
+
             self.table.heading(
                 column,
                 text=column
@@ -88,17 +95,18 @@ class HatWindow:
         )
 
 
-        # ==========================
-        # SEARCH AREA (STEP 3)
-        # ==========================
+        # -------------------------
+        # Search
+        # -------------------------
 
         search_frame = tk.Frame(self.window)
+
         search_frame.pack(pady=5)
 
 
         tk.Label(
             search_frame,
-            text="Search Hat Number:"
+            text="Search Hat Size:"
         ).pack(side="left")
 
 
@@ -129,11 +137,14 @@ class HatWindow:
         ).pack(
             side="left"
         )
-        # ==========================
+
+
+        # -------------------------
         # Checkout Name
-        # ==========================
+        # -------------------------
 
         checkout_frame = tk.Frame(self.window)
+
         checkout_frame.pack(pady=5)
 
 
@@ -154,11 +165,12 @@ class HatWindow:
         )
 
 
-        # ==========================
-        # CSV BUTTONS
-        # ==========================
+        # -------------------------
+        # Buttons
+        # -------------------------
 
         button_frame = tk.Frame(self.window)
+
         button_frame.pack(pady=10)
 
 
@@ -182,6 +194,8 @@ class HatWindow:
             column=1,
             padx=5
         )
+
+
         tk.Button(
             button_frame,
             text="Check Out",
@@ -201,11 +215,17 @@ class HatWindow:
             row=0,
             column=3,
             padx=5
-)
+        )
+
+
+    # -------------------------
+    # Load All Hats
+    # -------------------------
 
     def load_hats(self):
 
         for item in self.table.get_children():
+
             self.table.delete(item)
 
 
@@ -217,17 +237,23 @@ class HatWindow:
                 values=hat
             )
 
+
+    # -------------------------
+    # Search Hats by Size
+    # -------------------------
+
     def search_hat_inventory(self):
 
-        search = self.search_hat.get()
+        search = self.search_hat.get().strip()
 
         for item in self.table.get_children():
             self.table.delete(item)
 
-        hats = search_hats(search)
+        if not search:
+            self.load_hats()
+            return
 
-        if not hats:
-            hats = search_hats_by_size(search)
+        hats = search_hats_by_size(search)
 
         for hat in hats:
             self.table.insert(
@@ -236,21 +262,32 @@ class HatWindow:
                 values=hat
             )
 
+    # -------------------------
+    # Check Out Hat
+    # -------------------------
+
     def checkout(self):
 
         selected = self.table.selection()
 
+
         if not selected:
+
             return
 
-        person = self.person.get()
+
+        person = self.person.get().strip()
+
 
         if not person:
+
             messagebox.showwarning(
                 "Missing Name",
                 "Enter the person's name before checking out a hat."
             )
+
             return
+
 
         for item in selected:
 
@@ -259,22 +296,32 @@ class HatWindow:
                 "values"
             )[0]
 
+
             checkout_hat(
                 hat_id,
                 person
             )
 
+
         self.load_hats()
 
-        self.person.delete(0, tk.END)
+        self.person.delete(
+            0,
+            tk.END
+        )
 
 
+    # -------------------------
+    # Return Hat
+    # -------------------------
 
     def return_selected_hat(self):
 
         selected = self.table.selection()
 
+
         if not selected:
+
             return
 
 
@@ -294,6 +341,9 @@ class HatWindow:
         self.load_hats()
 
 
+    # -------------------------
+    # Import CSV
+    # -------------------------
 
     def import_file(self):
 
@@ -308,14 +358,19 @@ class HatWindow:
 
             import_hat_csv(path)
 
+
             messagebox.showinfo(
                 "Imported",
                 "Hat inventory imported successfully!"
             )
 
+
             self.load_hats()
 
 
+    # -------------------------
+    # Export CSV
+    # -------------------------
 
     def export_file(self):
 
@@ -330,6 +385,7 @@ class HatWindow:
         if path:
 
             export_hat_csv(path)
+
 
             messagebox.showinfo(
                 "Exported",
