@@ -24,7 +24,7 @@ class UniformManagerApp:
         )
 
         self.root.geometry(
-            "1920x1080"
+            "600x600"
         )
 
         self.root.resizable(
@@ -162,3 +162,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
