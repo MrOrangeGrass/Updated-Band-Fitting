@@ -57,6 +57,8 @@ def create_database():
 """)
 
 
+# Hat table
+    
     # Hat table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS hats (
@@ -67,16 +69,20 @@ def create_database():
 
         size TEXT,
 
+        type TEXT DEFAULT "",
+
         checked_out_to TEXT DEFAULT ""
 
     )
     """)
 
-
-    conn.commit()
-    conn.close()
-
-
+    # Add type column to existing database
+    try:
+        cursor.execute(
+            "ALTER TABLE hats ADD COLUMN type TEXT DEFAULT ''"
+        )
+    except sqlite3.OperationalError:
+        pass
 # ---------------------------------------
 # Add Uniform
 # ---------------------------------------
@@ -497,59 +503,30 @@ def search_hats(search):
     return results
 
 
-# ---------------------------------------
-# Search Hats
-# ---------------------------------------
-
-def search_hats(search):
-
-    conn = connect()
-    cursor = conn.cursor()
-
-    cursor.execute("""
-    SELECT *
-    FROM hats
-    WHERE hat_number LIKE ?
-    ORDER BY hat_number
-    """,
-    (
-        "%" + search + "%",
-    ))
-
-    results = cursor.fetchall()
-
-    conn.close()
-
-    return results
-
 
 # ---------------------------------------
 # Search Hats by Size
 # ---------------------------------------
 
-def search_hats_by_size(size):
-
+def search_hats_by_size(search):
     conn = connect()
     cursor = conn.cursor()
 
+    search = search.strip().lower()
+
     cursor.execute("""
-    SELECT *
-    FROM hats
-    WHERE size LIKE ?
-    ORDER BY hat_number
-    """,
-    (
-        "%" + size + "%",
-    ))
+        SELECT id, hat_number, size, checked_out_to
+        FROM hats
+        WHERE LOWER(TRIM(CAST(size AS TEXT))) = ?
+           OR LOWER(TRIM(type)) = ?
+        ORDER BY hat_number
+    """, (search, search))
 
     results = cursor.fetchall()
 
     conn.close()
 
     return results
-
-
-
 # ---------------------------------------
 # Import Hat CSV
 # ---------------------------------------
@@ -570,20 +547,20 @@ def import_hat_csv(path):
             (
                 hat_number,
                 size,
+                type,
                 checked_out_to
             )
-            VALUES (?,?,?)
+            VALUES (?,?,?,?)
             """,
             (
                 row["Hat Number"],
                 row["Size"],
+                row["Type"],
                 ""
             ))
 
     conn.commit()
     conn.close()
-
-
 # ---------------------------------------
 # Export Hat CSV
 # ---------------------------------------
