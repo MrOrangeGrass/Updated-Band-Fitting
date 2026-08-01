@@ -29,7 +29,7 @@ class InventoryWindow:
         self.window = tk.Toplevel(parent)
 
         self.window.title("Uniform Inventory")
-        self.window.geometry("1820x980")
+        self.window.geometry("600x600")
         self.window.minsize(900, 500)
 
         self.build_ui()
